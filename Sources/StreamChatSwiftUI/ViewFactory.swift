@@ -423,6 +423,12 @@ public protocol ViewFactory: AnyObject {
         availableWidth: CGFloat,
         scrolledId: Binding<String?>
     ) -> CustomAttachmentViewType
+    
+    associatedtype CustomAttachmentQuotedViewType: View
+    
+    func makeCustomAttachmentQuotedViewType(
+        for quotedMessage: ChatMessage
+    ) -> CustomAttachmentQuotedViewType
 
     associatedtype ScrollToBottomButtonType: View
     /// Creates the scroll to bottom button.

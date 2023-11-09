@@ -422,6 +422,12 @@ extension ViewFactory {
         EmptyView()
     }
     
+    public func makeCustomAttachmentQuotedViewType(
+        for quotedMessage: ChatMessage
+    ) -> some View {
+        EmptyView()
+    }
+    
     public func makeScrollToBottomButton(
         unreadCount: Int,
         onScrollToBottom: @escaping () -> Void

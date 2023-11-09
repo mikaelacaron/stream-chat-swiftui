@@ -60,8 +60,13 @@ public struct QuotedMessageView<Factory: ViewFactory>: View {
     @Injected(\.images) private var images
     @Injected(\.fonts) private var fonts
     @Injected(\.colors) private var colors
+    @Injected(\.utils) private var utils
 
     private let attachmentWidth: CGFloat = 36
+    
+    private var messageTypeResolver: MessageTypeResolving {
+        utils.messageTypeResolver
+    }
 
     public var factory: Factory
     public var quotedMessage: ChatMessage
@@ -84,7 +89,10 @@ public struct QuotedMessageView<Factory: ViewFactory>: View {
         HStack(alignment: .top) {
             if !quotedMessage.attachmentCounts.isEmpty {
                 ZStack {
-                    if !quotedMessage.imageAttachments.isEmpty {
+                    
+                    if messageTypeResolver.hasCustomAttachment(message: quotedMessage) {
+                        factory.makeCustomAttachmentQuotedViewType(for: quotedMessage)
+                    } else if !quotedMessage.imageAttachments.isEmpty {
                         LazyLoadingImage(
                             source: quotedMessage.imageAttachments[0].imageURL,
                             width: attachmentWidth,
